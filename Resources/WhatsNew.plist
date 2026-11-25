@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Liquid Glass UI</string>
+		<key>caption</key>
+		<string>An all-new look designed from the ground up for Liquid Glass.</string>
+		<key>icon</key>
+		<string>drop.fill</string>
+		<key>isPatronExclusive</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Sega Genesis</string>
+		<key>caption</key>
+		<string>Play all your favorite Genesis games. Delta does what Nintendon&apos;t.</string>
+		<key>icon</key>
+		<string>gamecontroller.fill</string>
+		<key>isPatronExclusive</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>RetroAchievements</string>
+		<key>caption</key>
+		<string>Sign in to RetroAchievements to unlock achievements in your games.</string>
+		<key>icon</key>
+		<string>trophy.fill</string>
+		<key>isPatronExclusive</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>iPhone Duo</string>
+		<key>caption</key>
+		<string>Adapts to every pose, with controller skins optimized for each one.</string>
+		<key>icon</key>
+		<string>book</string>
+		<key>isPatronExclusive</key>
+		<false/>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Custom Filters</string>
+		<key>caption</key>
+		<string>Give your games a classic look with CRT filters and more, or add your own.</string>
+		<key>icon</key>
+		<string>paintbrush</string>
+		<key>isPatronExclusive</key>
+		<true/>
+	</dict>
+</array>
+</plist>

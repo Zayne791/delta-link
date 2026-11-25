@@ -1,0 +1,27 @@
+//
+//  GBATypes.h
+//  GBADeltaCore
+//
+//  Created by Riley Testut on 1/30/20.
+//  Copyright © 2020 Riley Testut. All rights reserved.
+//
+
+#import <DeltaCore/DeltaTypes.h>
+
+// Extensible Enums
+FOUNDATION_EXPORT GameType const GameTypeGBA NS_SWIFT_NAME(gba);
+
+FOUNDATION_EXPORT CheatType const CheatTypeActionReplay;
+FOUNDATION_EXPORT CheatType const CheatTypeGameShark;
+FOUNDATION_EXPORT CheatType const CheatTypeCodeBreaker;
+
+FOUNDATION_EXPORT NSNotificationName const GBADidActivateGyroNotification NS_REFINED_FOR_SWIFT;
+FOUNDATION_EXPORT NSNotificationName const GBADidDeactivateGyroNotification NS_REFINED_FOR_SWIFT;
+
+FOUNDATION_EXPORT NSNotificationName const GBADidEnableSavingNotification NS_REFINED_FOR_SWIFT;
+FOUNDATION_EXPORT NSNotificationName const GBADidDisableSavingNotification NS_REFINED_FOR_SWIFT;
+
+// Delta Link. userInfo: GBALinkStateKey (NSNumber, GBALinkState), GBALinkErrorKey (NSString, may be empty).
+FOUNDATION_EXPORT NSNotificationName const GBALinkStateDidChangeNotification NS_REFINED_FOR_SWIFT;
+FOUNDATION_EXPORT NSString *const GBALinkStateKey;
+FOUNDATION_EXPORT NSString *const GBALinkErrorKey;

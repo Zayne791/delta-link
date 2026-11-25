@@ -1,0 +1,96 @@
+# Builds the unsigned Delta Link .ipa (Delta + gpSP GBA core with the Kindle link cable).
+# SideStore signs it on the phone with a free Apple ID. Run it from the Actions tab (or push to delta-link).
+name: Build Delta Link
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [delta-link]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 150
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Select Xcode (newest installed; Delta 2.0 needs the iOS 26 SDK)
+        run: |
+          ls -d /Applications/Xcode*.app || true
+          XCODE=$(ls -d /Applications/Xcode_*.app | grep -v -i beta | sort -V | tail -1)
+          [ -n "$XCODE" ] || XCODE=/Applications/Xcode.app
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          xcodebuild -version
+          xcodebuild -showsdks | grep -i iphoneos
+          MAJOR=$(xcodebuild -version | head -1 | awk '{print $2}' | cut -d. -f1)
+          if [ "$MAJOR" -lt 26 ]; then echo "::error::Xcode $MAJOR is too old (Delta uses iOS 26 APIs). Change runs-on to a runner with Xcode 26, e.g. macos-26."; exit 1; fi
+
+      - name: Fetch submodules (git@ and git:// URLs rewritten to https)
+        run: |
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          git config --global url."https://git.code.sf.net/".insteadOf "git://git.code.sf.net/"
+          git submodule sync --recursive
+          for i in 1 2 3; do git submodule update --init --recursive --jobs 8 && break; echo "retry $i"; sleep 10; done
+          git submodule status --recursive
+
+      - name: CocoaPods (Pods/ is committed; install only if it is out of date)
+        run: |
+          if diff -q Podfile.lock Pods/Manifest.lock; then echo "Pods up to date"; else pod install; fi
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild -resolvePackageDependencies -workspace Delta.xcworkspace -scheme Delta \
+            -clonedSourcePackagesDirPath build/SourcePackages
+
+      - name: Build (Release, iphoneos, unsigned)
+        run: |
+          mkdir -p build
+          xcodebuild build \
+            -workspace Delta.xcworkspace \
+            -scheme Delta \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/DerivedData \
+            -clonedSourcePackagesDirPath build/SourcePackages \
+            -skipPackagePluginValidation \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            2>&1 | tee build/xcodebuild.log | grep -E "error:|warning: .*GBADeltaCore|\*\* BUILD" || true
+          grep -q "\*\* BUILD SUCCEEDED \*\*" build/xcodebuild.log
+
+      - name: Package DeltaLink.ipa
+        run: |
+          APP=build/DerivedData/Build/Products/Release-iphoneos/Delta.app
+          test -d "$APP"
+          rm -rf build/ipa && mkdir -p build/ipa/Payload
+          cp -R "$APP" "build/ipa/Payload/Delta Link.app"
+          # Nothing a free account cannot sign: no app extensions, no provisioning profile.
+          rm -rf "build/ipa/Payload/Delta Link.app/PlugIns" "build/ipa/Payload/Delta Link.app/embedded.mobileprovision"
+          (cd build/ipa && zip -qry ../../DeltaLink.ipa Payload)
+          ls -la DeltaLink.ipa
+          echo "--- Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" -c "Print :CFBundleDisplayName" -c "Print :NSLocalNetworkUsageDescription" "$APP/Info.plist"
+          echo "--- GBA core is gpSP with the link"
+          nm -gU "$APP/Frameworks/GBADeltaCore.framework/GBADeltaCore" | grep -E " _(dl_start|retro_run|rfu_net_receive)$" || echo "::warning::gpSP symbols not found in GBADeltaCore (stripped?)"
+
+      - name: Upload DeltaLink.ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: DeltaLink-ipa
+          path: DeltaLink.ipa
+          if-no-files-found: error
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcodebuild-log
+          path: build/xcodebuild.log
+          if-no-files-found: ignore
