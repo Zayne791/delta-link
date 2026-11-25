@@ -250,8 +250,8 @@ class GameViewController: DeltaCore.GameViewController
         set {
             _previousHingeStatus = newValue?.rawValue
         }
-#endif
     }
+#endif
     private var _previousHingeStatus: Int?
     
     // Sustain Buttons
