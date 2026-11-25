@@ -1,115 +1,51 @@
 {
-  "fill": {
-    "linear-gradient": [
+  "fill" : {
+    "linear-gradient" : [
       "display-p3:0.54510,0.15686,0.96863,1.00000",
       "srgb:0.26667,0.00000,0.63137,1.00000"
     ]
   },
-  "groups": [
+  "groups" : [
     {
-      "blur-material": 0.5,
-      "hidden": true,
-      "layers": [
+      "layers" : [
         {
-          "glass": true,
-          "hidden": false,
-          "image-name": "Delta_icon.svg",
-          "name": "Delta_icon",
-          "position": {
-            "scale": 0.88,
-            "translation-in-points": [
-              0,
-              0
-            ]
-          }
-        }
-      ],
-      "name": "Icon",
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 1.6
-      },
-      "translucency": {
-        "enabled": true,
-        "value": 0.4
-      }
-    },
-    {
-      "blur-material": null,
-      "hidden": true,
-      "layers": [
-        {
-          "glass": true,
-          "image-name": "delta_shadow.svg",
-          "name": "delta_shadow",
-          "position": {
-            "scale": 0.88,
-            "translation-in-points": [
-              0,
-              0
-            ]
-          }
-        }
-      ],
-      "lighting": "individual",
-      "name": "Shadow",
-      "shadow": {
-        "kind": "none",
-        "opacity": 1.6
-      },
-      "specular": true,
-      "translucency": {
-        "enabled": false,
-        "value": 0.4
-      }
-    },
-    {
-      "blur-material": 0.5,
-      "hidden": false,
-      "layers": [
-        {
-          "glass": true,
-          "hidden": false,
-          "image-name": "Delta_icon.svg",
-          "name": "Delta_icon",
-          "position": {
-            "scale": 0.88,
-            "translation-in-points": [
+          "image-name" : "delta_icon.svg",
+          "name" : "delta_icon",
+          "position" : {
+            "scale" : 0.88,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         },
         {
-          "glass": false,
-          "image-name": "delta_shadow.svg",
-          "name": "delta_shadow",
-          "position": {
-            "scale": 0.88,
-            "translation-in-points": [
+          "glass" : false,
+          "image-name" : "delta_shadow.svg",
+          "name" : "delta_shadow",
+          "position" : {
+            "scale" : 0.88,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         }
       ],
-      "lighting": "individual",
-      "name": "Combined",
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 1.6
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
       },
-      "specular": true,
-      "translucency": {
-        "enabled": true,
-        "value": 0.4
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
       }
     }
   ],
-  "supported-platforms": {
-    "circles": [
+  "supported-platforms" : {
+    "circles" : [
       "watchOS"
     ],
-    "squares": "shared"
+    "squares" : "shared"
   }
 }

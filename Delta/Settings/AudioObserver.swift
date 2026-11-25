@@ -41,6 +41,7 @@ class AudioObserver
             return
         }
         
+#if DELTA_SDK27
         self.sessionObservations = [
             NotificationCenter.default.addObserver(of: AVAudioSession.sharedInstance(), for: AVAudioSession.DidBecomeActiveMessage.self) { _ in
                 self.isSessionActive = true
@@ -49,6 +50,7 @@ class AudioObserver
                 self.isSessionActive = false
             }
         ]
+#endif
     }
 }
 

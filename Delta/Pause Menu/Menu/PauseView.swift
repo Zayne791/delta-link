@@ -139,6 +139,7 @@ struct PauseView: View
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity) // Fill proposed frame with ScrollView.
             
+#if DELTA_SDK27
             if #available(iOS 27.1, *), horizontalSizeClass == .regular
             {
                 // For some reason ArrangementView breaks PauseView on outer display,
@@ -162,6 +163,9 @@ struct PauseView: View
             {
                 scrollView
             }
+#else
+            scrollView
+#endif
         }
         .ignoresSafeArea(edges: [.top, .bottom])
         .navigationTitle(Text("")) // HACK: Fixes UI glitch when transitioning to SaveStatesViewController.

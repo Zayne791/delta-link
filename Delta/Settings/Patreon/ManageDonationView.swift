@@ -90,7 +90,7 @@ struct ManageDonationView: View
                 Button("Unlink Account", action: signOut)
             }
         }
-        .alert("Unable to Unlink Patreon Account", item: $patreonError, actions: { error in
+        .alert("Unable to Unlink Patreon Account", isPresented: Binding(get: { patreonError != nil }, set: { if !$0 { patreonError = nil } }), presenting: patreonError, actions: { _ in
             Button("OK") {}
         }, message: { error in
             Text(error.localizedDescription)

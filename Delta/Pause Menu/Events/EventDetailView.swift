@@ -18,16 +18,16 @@ struct EventDetailView: View
     @Environment(\.dismiss)
     private var dismiss
     
-    @State
+    @SwiftUI.State
     private var isDownloadingEvent: Bool = false
     
-    @State
+    @SwiftUI.State
     private var downloadError: Error?
     
-    @State
+    @SwiftUI.State
     private var isShowingErrorAlert: Bool = false
     
-    @State
+    @SwiftUI.State
     private var isShowingConfirmationAlert: Bool = false
 
     var body: some View {

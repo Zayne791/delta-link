@@ -240,6 +240,7 @@ class GameViewController: DeltaCore.GameViewController
     private var coverView: CoverView?
     private var isShowingCover = false
     
+#if DELTA_SDK27 // iPhone Duo hinge: iOS 27 SDK only (Delta Link builds with Xcode 26)
     @available(iOS 27.1, *)
     private var previousHingeStatus: UIHinge.Status? {
         get {
@@ -249,6 +250,7 @@ class GameViewController: DeltaCore.GameViewController
         set {
             _previousHingeStatus = newValue?.rawValue
         }
+#endif
     }
     private var _previousHingeStatus: Int?
     
@@ -512,6 +514,7 @@ extension GameViewController
         self.handoffPlaceholderView.activityIndicatorView.color = .white
         self.view.insertSubview(self.handoffPlaceholderView, aboveSubview: self.gameView)
         
+#if DELTA_SDK27
         if #available(iOS 27.1, *)
         {
             // Cover
@@ -521,6 +524,7 @@ extension GameViewController
             }
             self.view.addInteraction(hingeInteraction)
         }
+#endif
         
         // Full Screen button
         var fullScreenButtonConfiguration: UIButton.Configuration
@@ -617,6 +621,7 @@ extension GameViewController
             self.connectExternalDisplay(for: scene)
         }
         
+#if DELTA_SDK27
         if #available(iOS 27.1, *), self.previousHingeStatus == nil
         {
             if self.view.traitCollection.horizontalSizeClass == .compact
@@ -630,6 +635,7 @@ extension GameViewController
                 self.previousHingeStatus = .partiallyOpen
             }
         }
+#endif
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator)
@@ -1907,6 +1913,7 @@ private extension GameViewController
         self.parent?.setNeedsUpdateOfSupportedInterfaceOrientations() // LaunchViewController
     }
     
+#if DELTA_SDK27
     /// UIHingeInteraction
     func hingeDidUpdate(_ update: UIHingeInteraction.Update)
     {
@@ -1925,6 +1932,7 @@ private extension GameViewController
             self.hingeDidOpen()
         }
     }
+#endif
 }
 
 extension GameViewController: CoverViewDelegate

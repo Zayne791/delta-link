@@ -17,6 +17,7 @@ struct ReservedRegionsContext
     
     init(geometry: GeometryProxy)
     {
+#if DELTA_SDK27
         if #available(iOS 27.1, *)
         {
             let regions = geometry.reservedRegions(kind: .division)
@@ -27,6 +28,7 @@ struct ReservedRegionsContext
                 self.dividerSize = region.frame.size
             }
         }
+#endif
         
         if geometry.size.height > geometry.size.width
         {
